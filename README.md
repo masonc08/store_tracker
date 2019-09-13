@@ -2,15 +2,8 @@
 
 A flutter application to help users track the closing times of their selected stores and locations
 
-## Getting Started
+## Introduction
 
-This project is a starting point for a Flutter application.
+This is currently an work in progress.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Store Tracker is a simple app that allows the user to pick any store or location, and track its closing time in live action. Store Tracker contacts the Google Maps API to provide the user with opening and closing times of the entered store or location. 
