@@ -29,8 +29,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void send(){}
-  String entry = '';
-  String returned = '';
+  String _entry = '';
+  String _returned = '';
+  String _address = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,14 +60,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
               ),
-              Text(entry),
+              Text(_entry),
 //              FutureBuilder(
 //                future: _loadLocation(),
 //                builder: (context, future) {
 //                  return null;
 //                }
 //              ),
-              Text(returned),
+              Text(_returned),
+              Text(_address),
             ],
           ),
         ),
@@ -80,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   void updateText(text){
     setState(() {
-      text == '' ? entry = '' : entry = 'You entered: $text';
+      text == '' ? _entry = '' : _entry = 'You entered: $text';
     });
   }
   void fetchLocation(value) async{
@@ -91,8 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
     String _placeDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?key=$_key&place_id=$_placeId';
     http.Response _placeDetailsResponse = await http.post(_placeDetailsUrl);
     String _foundResult = jsonDecode(_placeDetailsResponse.body.toString())['result']['name'];
+    String _foundAddress = jsonDecode(_placeDetailsResponse.body.toString())['result']['formatted_address'];
     setState(() {
-      returned = 'We found the following result: $_foundResult';
+      _returned = 'We found the following result: $_foundResult';
+      _address = 'Address: $_foundAddress';
     });
   }
 }
