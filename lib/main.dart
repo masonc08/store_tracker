@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -28,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void send(){}
   String entry = '';
+  String returned = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,16 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onSubmitted: (value) {
                     updateText(value);
+                    fetchLocation(value);
                   },
                 ),
               ),
+              Text(entry),
 //              FutureBuilder(
 //                future: _loadLocation(),
 //                builder: (context, future) {
 //                  return null;
 //                }
 //              ),
-                Text(entry),
+              Text(returned),
             ],
           ),
         ),
@@ -70,15 +75,24 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: send,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
   void updateText(text){
     setState(() {
-      text == '' ? entry = '' : entry = 'You entered $text';
+      text == '' ? entry = '' : entry = 'You entered: $text';
     });
   }
-  Future<String> _loadLocation(value) {
-
+  void fetchLocation(value) async{
+    String _key = 'AIzaSyANeaa3jm376zld-VkK5_YB7qyYQVMun7Q';
+    String _placesUrl = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=$_key&input=$value&inputtype=textquery';
+    http.Response _placesResponse = await http.post(_placesUrl);
+    String _placeId = jsonDecode(_placesResponse.body.toString())['candidates'][0]['place_id'];
+    String _placeDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?key=$_key&place_id=$_placeId';
+    http.Response _placeDetailsResponse = await http.post(_placeDetailsUrl);
+    String _foundResult = jsonDecode(_placeDetailsResponse.body.toString())['result']['name'];
+    setState(() {
+      returned = 'We found the following result: $_foundResult';
+    });
   }
 }
