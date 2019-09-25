@@ -111,16 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
         for (int i = 0; i < _serviceHours.length; i++) {
           _serviceHours[i] = Text(_serviceHours[i]);
         }
-        _serviceHours.add(
-          RaisedButton(
-            onPressed: _startTrack,
-            child: Text('Track'),
-          ),
-        );
       }
     });
-  }
-  void _startTrack(){
-    print('Test');
   }
 }
